@@ -1,0 +1,89 @@
+{
+  "updated": "2026-10-28T06:00:00Z",
+  "awwwards": [
+    {
+      "title": "Lusion — Creative Studio",
+      "url": "https://www.awwwards.com/sites/lusion",
+      "image": "mock/1.svg",
+      "meta": "Site of the Day · 7.8"
+    },
+    {
+      "title": "Immersive Garden",
+      "url": "https://www.awwwards.com/sites/immersive-garden",
+      "image": "mock/2.svg",
+      "meta": "7.6"
+    },
+    {
+      "title": "Obsidian Assembly",
+      "url": "https://www.awwwards.com/sites/obsidian",
+      "image": "mock/3.svg",
+      "meta": "7.5"
+    }
+  ],
+  "behance": [
+    {
+      "title": "Brand identity for Nordlys",
+      "url": "https://www.behance.net/gallery/1",
+      "image": "mock/4.svg",
+      "meta": "Curated"
+    },
+    {
+      "title": "Mobile banking redesign",
+      "url": "https://www.behance.net/gallery/2",
+      "image": "mock/5.svg",
+      "meta": "Curated"
+    },
+    {
+      "title": "Poster series «Tempo»",
+      "url": "https://www.behance.net/gallery/3",
+      "image": "mock/6.svg",
+      "meta": "Curated"
+    }
+  ],
+  "producthunt": [
+    {
+      "title": "Tempo — focus timer for designers",
+      "url": "https://www.producthunt.com/posts/tempo",
+      "image": "mock/7.svg",
+      "meta": "▲ 812",
+      "text": "Plan the day in blocks, not lists"
+    },
+    {
+      "title": "Pixelcraft AI",
+      "url": "https://www.producthunt.com/posts/pixelcraft",
+      "image": "mock/8.svg",
+      "meta": "▲ 640",
+      "text": "Generate UI kits from a sentence"
+    },
+    {
+      "title": "Notch",
+      "url": "https://www.producthunt.com/posts/notch",
+      "image": "mock/9.svg",
+      "meta": "▲ 455",
+      "text": "A tiny status bar for your Mac and PC"
+    }
+  ],
+  "news": [
+    {
+      "title": "Designing for the long tail of screens",
+      "url": "https://www.smashingmagazine.com/1",
+      "meta": "Smashing Magazine · 2 ч",
+      "text": "Короткое описание статьи в две строки, чтобы проверить перенос и обрезку текста в карточке.",
+      "image": "mock/1.svg"
+    },
+    {
+      "title": "Sidebar 4.2: five best design links of the day",
+      "url": "https://sidebar.io/1",
+      "meta": "Sidebar · 5 ч",
+      "text": "Короткое описание статьи в две строки, чтобы проверить перенос и обрезку текста в карточке.",
+      "image": "mock/2.svg"
+    },
+    {
+      "title": "Usability of AI assistants: what the data says",
+      "url": "https://www.nngroup.com/articles/1",
+      "meta": "NN/g · вчера",
+      "text": "Короткое описание статьи в две строки, чтобы проверить перенос и обрезку текста в карточке.",
+      "image": "mock/3.svg"
+    }
+  ]
+}
