@@ -20,7 +20,7 @@ const IMAGE_BLOCKS: [&str; 4] = ["awwwards", "behance", "producthunt", "news"];
 // Адрес data.json: переменная WIDGET_DATA_URL при сборке или config.json рядом с данными приложения.
 const DEFAULT_URL: &str = match option_env!("WIDGET_DATA_URL") {
     Some(u) => u,
-    None => "https://example.invalid/data.json",
+    None => "https://raw.githubusercontent.com/SayBearDes/sidewidget/data/data.json",
 };
 
 #[derive(Deserialize)]
