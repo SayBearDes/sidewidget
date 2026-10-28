@@ -30,7 +30,7 @@ function render(d) {
     document.querySelector(`#${id} > div`).innerHTML = (items || []).slice(0, 3).map(fn).join("");
   };
   put("awwwards", (it) => gridCard(it, false), d.awwwards);
-  put("behance", gridCard, d.behance);
+  put("behance", (it) => gridCard(it, false), d.behance);
   put("producthunt", phRow, d.producthunt);
   put("news", newsRow, d.news);
 }
