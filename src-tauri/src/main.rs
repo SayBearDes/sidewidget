@@ -137,15 +137,18 @@ fn get_data(state: State<State_>) -> Option<Value> {
 }
 
 /// Байты картинки из кэша на диске. Встроенный asset-протокол в релизной сборке отвечал 403,
-/// поэтому файл читаем сами; читать можно только внутри папки кэша картинок.
+/// поэтому файл читаем сами. От переданного пути берём только имя файла и ищем его строго
+/// в папке кэша картинок, так что прочитать что-то за её пределами нельзя.
 #[tauri::command]
 fn read_image(app: AppHandle, path: String) -> Result<tauri::ipc::Response, String> {
-    let dir = cache_dir(&app).join("img").canonicalize().map_err(|e| e.to_string())?;
-    let file = PathBuf::from(path).canonicalize().map_err(|e| e.to_string())?;
-    if !file.starts_with(&dir) {
-        return Err("path is outside the image cache".into());
-    }
-    fs::read(file).map(tauri::ipc::Response::new).map_err(|e| e.to_string())
+    let name = path
+        .rsplit(['\\', '/'])
+        .next()
+        .filter(|n| !n.is_empty() && *n != "." && *n != "..")
+        .ok_or("bad image name")?;
+    fs::read(cache_dir(&app).join("img").join(name))
+        .map(tauri::ipc::Response::new)
+        .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
