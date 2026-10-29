@@ -4,8 +4,32 @@ if (!IN_TAURI) document.body.classList.add("preview");
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-// Rust кладёт скачанный файл в imageLocal; без него (или в предпросмотре) — удалённая ссылка
-const imgSrc = (it) => (it.imageLocal && IN_TAURI ? window.__TAURI__.core.convertFileSrc(it.imageLocal) : it.image);
+// Rust кладёт скачанный файл в imageLocal. В Tauri файл читаем командой read_image и показываем
+// через blob:-URL (hydrateImages); без imageLocal или в предпросмотре — обычная удалённая ссылка.
+const imgTag = (it, alt = "") =>
+  it.imageLocal && IN_TAURI
+    ? `<img data-local="${esc(it.imageLocal)}" alt="${esc(alt)}">`
+    : it.image ? `<img src="${esc(it.image)}" alt="${esc(alt)}">` : "";
+
+const MIME = { png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", webp: "image/webp", gif: "image/gif", svg: "image/svg+xml" };
+let blobUrls = [];
+
+async function hydrateImages() {
+  const { invoke } = window.__TAURI__.core;
+  await Promise.all([...document.querySelectorAll("img[data-local]")].map(async (img) => {
+    try {
+      const path = img.dataset.local;
+      const bytes = await invoke("read_image", { path });
+      if (!img.isConnected) return; // страницу успели перерисовать
+      const type = MIME[path.split(".").pop().toLowerCase()] ?? "";
+      const url = URL.createObjectURL(new Blob([bytes], { type }));
+      blobUrls.push(url);
+      img.src = url;
+    } catch (e) {
+      console.warn("image:", e);
+    }
+  }));
+}
 
 function ago(iso) {
   const h = Math.round((Date.now() - new Date(iso)) / 36e5);
@@ -13,12 +37,12 @@ function ago(iso) {
 }
 
 const gridCard = (it, caption = true) =>
-  `<a class="card" href="${esc(it.url)}" title="${esc(it.title)}">${imgSrc(it) ? `<img src="${esc(imgSrc(it))}" alt="${esc(it.title)}">` : ""}` +
+  `<a class="card" href="${esc(it.url)}" title="${esc(it.title)}">${imgTag(it, it.title)}` +
   `${caption ? `<div class="cap"><b>${esc(it.title)}</b><small>${esc(it.meta)}</small></div>` : ""}</a>`;
 
 // строка: превью + заголовок + описание + мета
 const row = (it, side = "") =>
-  `<a class="card row" href="${esc(it.url)}">${imgSrc(it) ? `<img src="${esc(imgSrc(it))}" alt="">` : ""}` +
+  `<a class="card row" href="${esc(it.url)}">${imgTag(it)}` +
   `<div class="t"><b>${esc(it.title)}</b>${it.text ? `<p>${esc(it.text)}</p>` : ""}` +
   `<small>${esc(it.meta)}${it.date ? " · " + ago(it.date) : ""}</small></div>${side}</a>`;
 
@@ -26,6 +50,8 @@ const phRow = (it) => row({ ...it, meta: "" }, `<span class="votes">${esc(it.met
 const newsRow = (it) => row({ ...it, meta: "", date: null });
 
 function render(d) {
+  blobUrls.forEach((u) => URL.revokeObjectURL(u));
+  blobUrls = [];
   const put = (id, fn, items) => {
     document.querySelector(`#${id} > div`).innerHTML = (items || []).slice(0, 3).map(fn).join("");
   };
@@ -33,6 +59,7 @@ function render(d) {
   put("behance", (it) => gridCard(it, false), d.behance);
   put("producthunt", phRow, d.producthunt);
   put("news", newsRow, d.news);
+  if (IN_TAURI) hydrateImages();
 }
 
 // Клик: в Tauri открываем в браузере по умолчанию, в предпросмотре — новая вкладка

@@ -136,6 +136,18 @@ fn get_data(state: State<State_>) -> Option<Value> {
     state.data.lock().unwrap().clone()
 }
 
+/// Байты картинки из кэша на диске. Встроенный asset-протокол в релизной сборке отвечал 403,
+/// поэтому файл читаем сами; читать можно только внутри папки кэша картинок.
+#[tauri::command]
+fn read_image(app: AppHandle, path: String) -> Result<tauri::ipc::Response, String> {
+    let dir = cache_dir(&app).join("img").canonicalize().map_err(|e| e.to_string())?;
+    let file = PathBuf::from(path).canonicalize().map_err(|e| e.to_string())?;
+    if !file.starts_with(&dir) {
+        return Err("path is outside the image cache".into());
+    }
+    fs::read(file).map(tauri::ipc::Response::new).map_err(|e| e.to_string())
+}
+
 #[tauri::command]
 fn open_url(app: AppHandle, url: String) -> Result<(), String> {
     if !(url.starts_with("https://") || url.starts_with("http://")) {
@@ -177,7 +189,7 @@ fn main() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_autostart::init(tauri_plugin_autostart::MacosLauncher::LaunchAgent, None))
         .manage(State_::default())
-        .invoke_handler(tauri::generate_handler![get_data, open_url, has_blur])
+        .invoke_handler(tauri::generate_handler![get_data, open_url, has_blur, read_image])
         .on_window_event(|window, event| {
             if let WindowEvent::ScaleFactorChanged { .. } = event {
                 if let Some(w) = window.app_handle().get_webview_window("main") {

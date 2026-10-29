@@ -1,21 +1,34 @@
 import { XMLParser } from "fast-xml-parser";
 import { fetchText, clean } from "../lib.mjs";
 
-// 1) Официальный GraphQL API v2 — топ дня по голосам. Нужен developer-токен в PH_TOKEN
-//    (https://www.producthunt.com/v2/oauth/applications -> create app -> "Developer Token").
-// 2) Без токена — запасной вариант: публичная Atom-лента (3 самых свежих запуска, БЕЗ рейтинга и голосов).
-const QUERY = `query($after: DateTime!) {
-  posts(order: VOTES, postedAfter: $after, first: 3) {
+// 1) Официальный GraphQL API v2 — топ дня по голосам среди featured-запусков (клиентские ключи, см. ниже).
+// 2) Без ключей — запасной вариант: публичная Atom-лента (3 самых свежих запуска, БЕЗ рейтинга и голосов).
+//
+// Нюансы API (проверено): день PH начинается в 00:00 по Тихоокеанскому времени (07:00 UTC летом),
+// а голоса запусков текущего дня первые часы приходят как 0. Поэтому берём текущий день, если в нём
+// уже есть голоса, иначе итоговый топ вчерашнего дня. Фильтр featured отсекает неотобранные посты.
+const QUERY = `query($after: DateTime!, $before: DateTime!) {
+  posts(featured: true, order: VOTES, postedAfter: $after, postedBefore: $before, first: 3) {
     edges { node { name tagline url votesCount thumbnail { url } } }
   }
 }`;
 
-async function viaApi(token) {
-  const after = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+// Начало текущих суток по Тихоокеанскому времени (с учётом летнего/зимнего), в UTC.
+function ptDayStart(now = new Date()) {
+  const p = Object.fromEntries(new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Los_Angeles", hourCycle: "h23", year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", second: "2-digit",
+  }).formatToParts(now).map((x) => [x.type, x.value]));
+  const local = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second);
+  const offset = local - Math.floor(now.getTime() / 1000) * 1000; // отрицательный: PT отстаёт от UTC
+  return new Date(Date.UTC(p.year, p.month - 1, p.day) - offset);
+}
+
+async function topPosts(token, after, before) {
   const res = await fetch("https://api.producthunt.com/v2/api/graphql", {
     method: "POST",
     headers: { "content-type": "application/json", authorization: `Bearer ${token}` },
-    body: JSON.stringify({ query: QUERY, variables: { after } }),
+    body: JSON.stringify({ query: QUERY, variables: { after: after.toISOString(), before: before.toISOString() } }),
     signal: AbortSignal.timeout(30_000),
   });
   const json = await res.json();
@@ -25,8 +38,21 @@ async function viaApi(token) {
     text: n.tagline,
     url: n.url.split("?")[0],
     image: n.thumbnail?.url ?? null,
+    votes: n.votesCount,
     meta: `▲ ${n.votesCount}`,
   }));
+}
+
+async function viaApi(token) {
+  const now = new Date();
+  const start = ptDayStart(now);
+  let posts = await topPosts(token, start, now);
+  if (!posts.some((p) => p.votes > 0)) {
+    console.warn("producthunt: today's votes are not available yet, using yesterday's top");
+    posts = await topPosts(token, new Date(start.getTime() - 24 * 3600e3), start);
+  }
+  if (posts.length < 3) throw new Error(`Product Hunt API: only ${posts.length} posts`);
+  return posts.map(({ votes, ...rest }) => rest);
 }
 
 async function viaFeed() {
