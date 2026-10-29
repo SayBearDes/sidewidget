@@ -1,0 +1,15 @@
+name: probe-ph
+on:
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node probe-ph.mjs
+        working-directory: collector
+        env:
+          PH_CLIENT_ID: ${{ secrets.PH_CLIENT_ID }}
+          PH_CLIENT_SECRET: ${{ secrets.PH_CLIENT_SECRET }}
