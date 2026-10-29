@@ -202,9 +202,8 @@ fn main() {
             w.show()?;
 
             // Автозапуск при входе в Windows (ключ HKCU\...\Run), без служб.
-            if let Ok(false) = handle.autolaunch().is_enabled() {
-                let _ = handle.autolaunch().enable();
-            }
+            // enable() каждый раз перезаписывает путь, чтобы он вёл на текущий exe (а не на старую dev-сборку).
+            let _ = handle.autolaunch().enable();
 
             // Один цикл: показать кэш с диска сразу, затем раз в N часов условный запрос.
             tauri::async_runtime::spawn(async move {
@@ -214,11 +213,18 @@ fn main() {
                         publish(&handle, v).await;
                     }
                 }
+                // Раз в 30 минут сверяем настоящие часы: длинный sleep «замирает» во сне ноутбука,
+                // а так обновление случится вскоре после пробуждения. При ошибке сети повтор через 30 минут.
+                let interval = Duration::from_secs(cfg.interval_hours.max(1) * 3600);
+                let mut last_ok: Option<std::time::SystemTime> = None;
                 loop {
-                    if let Err(e) = refresh(&handle, &cfg).await {
-                        eprintln!("refresh failed: {e}");
+                    if last_ok.map_or(true, |t| t.elapsed().map_or(true, |e| e >= interval)) {
+                        match refresh(&handle, &cfg).await {
+                            Ok(()) => last_ok = Some(std::time::SystemTime::now()),
+                            Err(e) => eprintln!("refresh failed: {e}"),
+                        }
                     }
-                    tokio::time::sleep(Duration::from_secs(cfg.interval_hours.max(1) * 3600)).await;
+                    tokio::time::sleep(Duration::from_secs(30 * 60)).await;
                 }
             });
             Ok(())

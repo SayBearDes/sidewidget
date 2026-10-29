@@ -1,6 +1,8 @@
 name: collect
 on:
-  schedule: [{ cron: "0 5 * * *" }]   # раз в сутки, 05:00 UTC
+  # Не на ровный час: в :00 GitHub перегружен и плановые запуски задерживаются или пропускаются.
+  # Второй запуск днём — страховка на случай пропуска основного.
+  schedule: [{ cron: "17 5 * * *" }, { cron: "43 14 * * *" }]
   workflow_dispatch:
 permissions:
   contents: write
