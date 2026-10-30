@@ -7,8 +7,10 @@ use std::{
     time::Duration,
 };
 
+mod collect;
+
 use serde::Deserialize;
-use serde_json::Value;
+use serde_json::{json, Value};
 use tauri::{AppHandle, Emitter, Manager, PhysicalPosition, PhysicalSize, State, WebviewWindow, WindowEvent};
 use tauri_plugin_autostart::ManagerExt as _;
 use tauri_plugin_opener::OpenerExt as _;
@@ -17,22 +19,49 @@ const WIDTH: f64 = 540.0; // логические px
 const MARGIN: f64 = 0.0; // отступ от правого края экрана
 const IMAGE_BLOCKS: [&str; 4] = ["awwwards", "behance", "producthunt", "news"];
 
-// Адрес data.json: переменная WIDGET_DATA_URL при сборке или config.json рядом с данными приложения.
+// Запасной источник: data.json, который собирает GitHub Actions. Адрес можно переопределить
+// переменной WIDGET_DATA_URL при сборке или полем url в config.json.
 const DEFAULT_URL: &str = match option_env!("WIDGET_DATA_URL") {
     Some(u) => u,
     None => "https://raw.githubusercontent.com/SayBearDes/sidewidget/data/data.json",
 };
 
+/// %LOCALAPPDATA%\com.evgen.sidewidget\config.json. Читается при каждом обновлении, перезапуск не нужен.
 #[derive(Deserialize)]
 #[serde(default)]
 struct Config {
     url: String,
     interval_hours: u64,
+    ph_client_id: String,
+    ph_client_secret: String,
+    ph_token: String,
 }
 impl Default for Config {
     fn default() -> Self {
-        Self { url: DEFAULT_URL.into(), interval_hours: 3 }
+        Self { url: DEFAULT_URL.into(), interval_hours: 3, ph_client_id: String::new(), ph_client_secret: String::new(), ph_token: String::new() }
     }
+}
+
+impl Config {
+    fn ph_keys(&self) -> collect::PhKeys {
+        collect::PhKeys {
+            client_id: self.ph_client_id.trim().into(),
+            client_secret: self.ph_client_secret.trim().into(),
+            token: self.ph_token.trim().into(),
+        }
+    }
+}
+
+/// Создаёт config.json с пустыми полями для ключей Product Hunt, если файла ещё нет.
+fn ensure_config(app: &AppHandle) {
+    let dir = cache_dir(app);
+    let path = dir.join("config.json");
+    if path.exists() {
+        return;
+    }
+    let template = json!({ "url": DEFAULT_URL, "interval_hours": 3, "ph_client_id": "", "ph_client_secret": "" });
+    let _ = fs::create_dir_all(&dir);
+    let _ = fs::write(path, serde_json::to_string_pretty(&template).unwrap_or_default());
 }
 
 #[derive(Default)]
@@ -98,31 +127,84 @@ async fn publish(app: &AppHandle, mut data: Value) {
     let _ = app.emit("data", data);
 }
 
-/// Один условный запрос (ETag). Ошибка сети — остаются закэшированные данные.
+/// Копия data.json с GitHub (запасной источник).
+async fn fetch_remote(c: &reqwest::Client, url: &str) -> Result<Value, String> {
+    let text = c.get(url).send().await.map_err(|e| e.to_string())?
+        .error_for_status().map_err(|e| e.to_string())?
+        .text().await.map_err(|e| e.to_string())?;
+    serde_json::from_str(&text).map_err(|e| e.to_string())
+}
+
+fn updated(v: &Value) -> &str {
+    v["updated"].as_str().unwrap_or("")
+}
+
+/// Собирает все четыре блока локально, прямо с сайтов. Блок, который не удалось собрать, берётся из того,
+/// что свежее: копия с GitHub или прошлый кэш на диске; для Product Hunt без ключей и без копий — публичная
+/// лента. Если не удалось вообще ничего (нет сети), ничего не меняется, повтор через 30 минут.
 async fn refresh(app: &AppHandle, cfg: &Config) -> Result<(), String> {
     let dir = cache_dir(app);
-    let etag_path = dir.join("etag.txt");
-    let client = reqwest::Client::builder().timeout(Duration::from_secs(30)).pool_max_idle_per_host(0).build().map_err(|e| e.to_string())?;
-    let mut req = client.get(&cfg.url);
-    if let Ok(tag) = fs::read_to_string(&etag_path) {
-        req = req.header("If-None-Match", tag.trim());
+    let c = collect::client();
+    let got = collect::collect_all(&c, &cfg.ph_keys()).await;
+    let results = [("awwwards", got.awwwards), ("behance", got.behance), ("news", got.news), ("producthunt", got.producthunt)];
+    let failed = results.iter().filter(|r| r.1.is_err()).count();
+    if failed == results.len() {
+        let first = results.iter().find_map(|r| r.1.as_ref().err()).cloned().unwrap_or_default();
+        return Err(format!("all sources failed, first error: {first}"));
     }
-    let res = req.send().await.map_err(|e| e.to_string())?;
-    if res.status() == reqwest::StatusCode::NOT_MODIFIED {
-        return Ok(());
+
+    let prev: Option<Value> = fs::read_to_string(dir.join("data.json")).ok().and_then(|s| serde_json::from_str(&s).ok());
+    let mut remote: Option<Value> = None;
+    let mut remote_tried = false;
+    let mut data = json!({ "updated": chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis, true) });
+    for (key, res) in results {
+        match res {
+            Ok(items) => data[key] = Value::Array(items),
+            Err(e) => {
+                eprintln!("{key}: {e}");
+                if !remote_tried {
+                    remote_tried = true;
+                    remote = fetch_remote(&c, &cfg.url).await.map_err(|e| eprintln!("remote copy: {e}")).ok();
+                }
+                let block = [remote.as_ref(), prev.as_ref()]
+                    .into_iter()
+                    .flatten()
+                    .filter(|v| v.get(key).and_then(Value::as_array).map_or(false, |a| !a.is_empty()))
+                    .max_by(|a, b| updated(a).cmp(updated(b)))
+                    .map(|v| v[key].clone());
+                data[key] = match block {
+                    Some(b) => b,
+                    None if key == "producthunt" => collect::producthunt_feed(&c).await.map(Value::Array).unwrap_or_else(|_| json!([])),
+                    None => json!([]),
+                };
+            }
+        }
     }
-    let res = res.error_for_status().map_err(|e| e.to_string())?;
-    let etag = res.headers().get("etag").and_then(|v| v.to_str().ok()).map(str::to_owned);
-    let text = res.text().await.map_err(|e| e.to_string())?;
-    let data: Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
     let _ = fs::create_dir_all(&dir);
-    let _ = fs::write(dir.join("data.json"), &text);
-    match etag {
-        Some(t) => { let _ = fs::write(&etag_path, t); }
-        None => { let _ = fs::remove_file(&etag_path); }
-    }
+    let _ = fs::write(dir.join("data.json"), serde_json::to_string_pretty(&data).map_err(|e| e.to_string())?);
     publish(app, data).await;
     Ok(())
+}
+
+/// `sidewidget.exe --collect-once` (debug-сборка): собрать все источники и вывести результат в консоль.
+/// Ключи Product Hunt берутся из переменных PH_CLIENT_ID / PH_CLIENT_SECRET.
+fn collect_once() {
+    let keys = collect::PhKeys {
+        client_id: std::env::var("PH_CLIENT_ID").unwrap_or_default(),
+        client_secret: std::env::var("PH_CLIENT_SECRET").unwrap_or_default(),
+        token: std::env::var("PH_TOKEN").unwrap_or_default(),
+    };
+    tauri::async_runtime::block_on(async {
+        let c = collect::client();
+        let got = collect::collect_all(&c, &keys).await;
+        for (name, r) in [("awwwards", got.awwwards), ("behance", got.behance), ("news", got.news), ("producthunt", got.producthunt)] {
+            match r {
+                Ok(v) => println!("== {name}: ok\n{}", serde_json::to_string_pretty(&v).unwrap_or_default()),
+                Err(e) => println!("== {name}: ERROR {e}"),
+            }
+        }
+    });
 }
 
 /// Фронтенд подбирает подложку: без системного размытия карточкам нужен более тёмный фон.
@@ -188,6 +270,10 @@ fn place_window(w: &WebviewWindow) -> tauri::Result<()> {
 }
 
 fn main() {
+    if std::env::args().any(|a| a == "--collect-once") {
+        collect_once();
+        return;
+    }
     tauri::Builder::default()
         // Второй запуск (автозапуск + ручной, установщик) не плодит дубликат окна и процессов WebView2.
         .plugin(tauri_plugin_single_instance::init(|_app, _args, _cwd| {}))
@@ -222,9 +308,9 @@ fn main() {
             // enable() каждый раз перезаписывает путь, чтобы он вёл на текущий exe (а не на старую dev-сборку).
             let _ = handle.autolaunch().enable();
 
-            // Один цикл: показать кэш с диска сразу, затем раз в N часов условный запрос.
+            // Один цикл: показать кэш с диска сразу, затем раз в N часов собрать данные локально.
             tauri::async_runtime::spawn(async move {
-                let cfg = load_config(&handle);
+                ensure_config(&handle);
                 if let Ok(s) = fs::read_to_string(cache_dir(&handle).join("data.json")) {
                     if let Ok(v) = serde_json::from_str(&s) {
                         publish(&handle, v).await;
@@ -232,9 +318,11 @@ fn main() {
                 }
                 // Раз в 30 минут сверяем настоящие часы: длинный sleep «замирает» во сне ноутбука,
                 // а так обновление случится вскоре после пробуждения. При ошибке сети повтор через 30 минут.
-                let interval = Duration::from_secs(cfg.interval_hours.max(1) * 3600);
+                // config.json перечитывается каждый раз: ключи и интервал меняются без перезапуска.
                 let mut last_ok: Option<std::time::SystemTime> = None;
                 loop {
+                    let cfg = load_config(&handle);
+                    let interval = Duration::from_secs(cfg.interval_hours.max(1) * 3600);
                     if last_ok.map_or(true, |t| t.elapsed().map_or(true, |e| e >= interval)) {
                         match refresh(&handle, &cfg).await {
                             Ok(()) => last_ok = Some(std::time::SystemTime::now()),
