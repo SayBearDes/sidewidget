@@ -3,7 +3,7 @@
 Колонка у правого края Windows 11 (Tauri 2): Awwwards, Behance Curated, Product Hunt, News. Лента без заголовков, картинки растягиваются под высоту экрана.
 
 - `src/` — вёрстка без фреймворков. Предпросмотр в браузере: любой статический сервер на `src/` (данные из `mock.json`).
-- `src-tauri/` — окно (без рамки, без кнопки на панели задач, под остальными окнами, Acrylic), загрузка `data.json` по ETag раз в 6 ч, кэш картинок в `%LOCALAPPDATA%\com.evgen.sidewidget\img`.
+- `src-tauri/` — окно (без рамки, без кнопки на панели задач, под остальными окнами, Acrylic), загрузка `data.json` по ETag раз в 3 ч, кэш картинок в `%LOCALAPPDATA%\com.evgen.sidewidget\img`.
 - `collector/` — сборщик: `cd collector && npm i && node index.mjs out/data.json`.
 - `.github/workflows/collect.yml` — раз в сутки собирает и пушит `data.json` в ветку `data`.
 
@@ -14,7 +14,7 @@
 cargo tauri icon icon.png     # один раз, создаёт src-tauri/icons
 cargo tauri dev               # или: cargo tauri build
 ```
-По умолчанию данные берутся из ветки `data` этого репозитория. Адрес можно сменить без пересборки: `%LOCALAPPDATA%\com.evgen.sidewidget\config.json` → `{"url": "...", "interval_hours": 6}`, либо при сборке переменной `WIDGET_DATA_URL`.
+По умолчанию данные берутся из ветки `data` этого репозитория. Адрес можно сменить без пересборки: `%LOCALAPPDATA%\com.evgen.sidewidget\config.json` → `{"url": "...", "interval_hours": 3}`, либо при сборке переменной `WIDGET_DATA_URL`.
 При первом запуске включается автозапуск (ключ Run в реестре текущего пользователя).
 
 Если в Windows выключены «Эффекты прозрачности», окно остаётся прозрачным без размытия (Acrylic в этом случае превращается в серую заливку).

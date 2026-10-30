@@ -31,7 +31,7 @@ struct Config {
 }
 impl Default for Config {
     fn default() -> Self {
-        Self { url: DEFAULT_URL.into(), interval_hours: 6 }
+        Self { url: DEFAULT_URL.into(), interval_hours: 3 }
     }
 }
 
@@ -189,6 +189,8 @@ fn place_window(w: &WebviewWindow) -> tauri::Result<()> {
 
 fn main() {
     tauri::Builder::default()
+        // Второй запуск (автозапуск + ручной, установщик) не плодит дубликат окна и процессов WebView2.
+        .plugin(tauri_plugin_single_instance::init(|_app, _args, _cwd| {}))
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_autostart::init(tauri_plugin_autostart::MacosLauncher::LaunchAgent, None))
         .manage(State_::default())
