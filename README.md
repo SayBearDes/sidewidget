@@ -5,7 +5,7 @@
 - `src/` — вёрстка без фреймворков. Предпросмотр в браузере: любой статический сервер на `src/` (данные из `mock.json`).
 - `src-tauri/` — окно (без рамки, без кнопки на панели задач, под остальными окнами, Acrylic), загрузка `data.json` по ETag раз в 3 ч, кэш картинок в `%LOCALAPPDATA%\com.evgen.sidewidget\img`.
 - `collector/` — сборщик: `cd collector && npm i && node index.mjs out/data.json`.
-- `.github/workflows/collect.yml` — раз в сутки собирает и пушит `data.json` в ветку `data`.
+- `.github/workflows/collect.yml` — каждые 3 часа собирает и пушит `data.json` в ветку `data` (плановые запуски GitHub нередко опаздывают или пропускаются, поэтому слотов много).
 
 ## Запуск виджета
 Нужны Rust (rustup), MSVC Build Tools (Desktop development with C++), WebView2 (есть в Win11) и `cargo install tauri-cli --version "^2"`.
