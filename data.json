@@ -1,0 +1,92 @@
+{
+ "updated": "2026-10-31T12:45:30.470Z",
+ "awwwards": [
+  {
+   "title": "MECHA",
+   "url": "https://www.awwwards.com/sites/mecha",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/09/6aa7eda51c421159920632.jpg",
+   "meta": "Site of the Day · Oct 31, 2026"
+  },
+  {
+   "title": "Creative Reference Library",
+   "url": "https://www.awwwards.com/sites/creative-reference-library",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/09/6ab4a45ed1eae579756505.png",
+   "meta": "Honorable Mention · Oct 09, 2026"
+  },
+  {
+   "title": "Lenval Properties",
+   "url": "https://www.awwwards.com/sites/lenval-properties",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/09/6ab200b2b056f225208497.jpg",
+   "meta": "Honorable Mention · Oct 09, 2026"
+  }
+ ],
+ "behance": [
+  {
+   "title": "??????",
+   "url": "https://www.behance.net/gallery/257599105/_",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/8190a0257599105.Y3JvcCwxNjYyLDEzMDAsMzQ5LDA.jpg",
+   "meta": "Curated"
+  },
+  {
+   "title": "shin kwangho oil painting",
+   "url": "https://www.behance.net/gallery/257707295/shin-kwangho-oil-painting",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/f85d78257707295.Y3JvcCwzMDk0LDI0MjAsNTA1LDcxMg.jpeg",
+   "meta": "Curated"
+  },
+  {
+   "title": "HANSSEM",
+   "url": "https://www.behance.net/gallery/257716313/HANSSEM",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/e98ee4257716313.Y3JvcCwzMDAwLDIzNDYsMCwxNDAz.jpg",
+   "meta": "Curated"
+  }
+ ],
+ "producthunt": [
+  {
+   "title": "SKI",
+   "text": "Voice-first coding harness ",
+   "url": "https://www.producthunt.com/products/ski",
+   "image": "https://ph-files.imgix.net/c51ef03e-0e19-4fab-b0a2-3b69fc8d07c4.png?auto=format",
+   "meta": "▲ 122"
+  },
+  {
+   "title": "Specsight",
+   "text": "Product observability for teams shipping fast with AI",
+   "url": "https://www.producthunt.com/products/specsight",
+   "image": "https://ph-files.imgix.net/19f1aa34-f2f3-4249-9ebf-42aefa9f1830.png?auto=format",
+   "meta": "▲ 111"
+  },
+  {
+   "title": "LumaFold: Screen Light",
+   "text": "Makeup Mirror & Color Effects for iPhone Duo",
+   "url": "https://www.producthunt.com/products/lumafold-screen-light",
+   "image": "https://ph-files.imgix.net/d12146ea-3dd0-4430-bf03-a3417767d926.png?auto=format",
+   "meta": "▲ 94"
+  }
+ ],
+ "news": [
+  {
+   "title": "A Spark Of Color In November’s Gray (2026 Wallpapers Edition)",
+   "url": "https://smashingmagazine.com/2026/10/desktop-wallpaper-calendars-november-2026/",
+   "text": "Let’s kick of November with a new collection of desktop wallpapers! Designed by creatives from across the globe, the wallpapers come in a variety of…",
+   "image": "http://archive.smashing.media/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/8edeb776-d8d5-4b5b-867f-6964f7addcd6/nov-17-colorful-autumn-preview-opt.png",
+   "meta": "Smashing Magazine",
+   "date": "2026-10-31T08:00:00.000Z"
+  },
+  {
+   "title": "The Role of UX in Agentic Software Factories",
+   "url": "https://www.nngroup.com/articles/ux-agentic-software-factories/",
+   "text": "AI-native software development lifecycles reduce UX to AI context. UX must discover user needs, shape what’s built, and evaluate it before and after…",
+   "image": "https://media.nngroup.com/media/articles/opengraph_images/The_Role_of_UX_in_Agentic_Software_Factories.png",
+   "meta": "NN/g",
+   "date": "2026-10-30T17:00:00.000Z"
+  },
+  {
+   "title": "Experience Design: Dropping the “User” from “User Experience”",
+   "url": "https://www.nngroup.com/articles/ux-vs-experience-design/",
+   "text": "AI is expanding UX beyond human users to agents acting on their behalf. Experience design names this broader field, which still centers on people’s…",
+   "image": "https://media.nngroup.com/media/articles/opengraph_images/The_Role_of_UX_in_Agentic_Software_Factories_YO2Q558.png",
+   "meta": "NN/g",
+   "date": "2026-10-30T17:00:00.000Z"
+  }
+ ]
+}
