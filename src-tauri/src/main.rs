@@ -7,6 +7,7 @@ use std::{
     time::Duration,
 };
 
+mod applog;
 mod collect;
 
 use serde::Deserialize;
@@ -74,10 +75,17 @@ fn cache_dir(app: &AppHandle) -> PathBuf {
 }
 
 fn load_config(app: &AppHandle) -> Config {
-    fs::read_to_string(cache_dir(app).join("config.json"))
-        .ok()
-        .and_then(|s| serde_json::from_str(&s).ok())
-        .unwrap_or_default()
+    let path = cache_dir(app).join("config.json");
+    match fs::read_to_string(&path) {
+        Ok(s) => serde_json::from_str(&s).unwrap_or_else(|e| {
+            applog::log(&format!("config.json parse error ({}): {e}", path.display()));
+            Config::default()
+        }),
+        Err(e) => {
+            applog::log(&format!("config.json read error ({}): {e}", path.display()));
+            Config::default()
+        }
+    }
 }
 
 fn fnv(s: &str) -> String {
@@ -144,9 +152,19 @@ fn updated(v: &Value) -> &str {
 /// лента. Если не удалось вообще ничего (нет сети), ничего не меняется, повтор через 30 минут.
 async fn refresh(app: &AppHandle, cfg: &Config) -> Result<(), String> {
     let dir = cache_dir(app);
+    applog::log(&format!(
+        "refresh: start (ph_client_id {} chars, ph_client_secret {} chars, ph_token {} chars)",
+        cfg.ph_client_id.trim().len(), cfg.ph_client_secret.trim().len(), cfg.ph_token.trim().len()
+    ));
     let c = collect::client();
     let got = collect::collect_all(&c, &cfg.ph_keys()).await;
     let results = [("awwwards", got.awwwards), ("behance", got.behance), ("news", got.news), ("producthunt", got.producthunt)];
+    for (key, res) in &results {
+        match res {
+            Ok(items) => applog::log(&format!("refresh: {key} ok ({})", items.len())),
+            Err(e) => applog::log(&format!("refresh: {key} FAILED: {e}")),
+        }
+    }
     let failed = results.iter().filter(|r| r.1.is_err()).count();
     if failed == results.len() {
         let first = results.iter().find_map(|r| r.1.as_ref().err()).cloned().unwrap_or_default();
@@ -160,11 +178,10 @@ async fn refresh(app: &AppHandle, cfg: &Config) -> Result<(), String> {
     for (key, res) in results {
         match res {
             Ok(items) => data[key] = Value::Array(items),
-            Err(e) => {
-                eprintln!("{key}: {e}");
+            Err(_) => {
                 if !remote_tried {
                     remote_tried = true;
-                    remote = fetch_remote(&c, &cfg.url).await.map_err(|e| eprintln!("remote copy: {e}")).ok();
+                    remote = fetch_remote(&c, &cfg.url).await.map_err(|e| applog::log(&format!("refresh: GitHub copy unavailable: {e}"))).ok();
                 }
                 let block = [remote.as_ref(), prev.as_ref()]
                     .into_iter()
@@ -182,8 +199,13 @@ async fn refresh(app: &AppHandle, cfg: &Config) -> Result<(), String> {
     }
 
     let _ = fs::create_dir_all(&dir);
-    let _ = fs::write(dir.join("data.json"), serde_json::to_string_pretty(&data).map_err(|e| e.to_string())?);
+    let data_path = dir.join("data.json");
+    match fs::write(&data_path, serde_json::to_string_pretty(&data).map_err(|e| e.to_string())?) {
+        Ok(()) => applog::log(&format!("refresh: wrote {}", data_path.display())),
+        Err(e) => applog::log(&format!("refresh: CANNOT WRITE {}: {e}", data_path.display())),
+    }
     publish(app, data).await;
+    applog::log(&format!("refresh: done, {failed} of 4 blocks from fallback"));
     Ok(())
 }
 
@@ -310,6 +332,8 @@ fn main() {
 
             // Один цикл: показать кэш с диска сразу, затем раз в N часов собрать данные локально.
             tauri::async_runtime::spawn(async move {
+                applog::init(cache_dir(&handle));
+                applog::log(&format!("started {}, pid {}", std::env::current_exe().map(|p| p.display().to_string()).unwrap_or_default(), std::process::id()));
                 ensure_config(&handle);
                 if let Ok(s) = fs::read_to_string(cache_dir(&handle).join("data.json")) {
                     if let Ok(v) = serde_json::from_str(&s) {
@@ -326,7 +350,7 @@ fn main() {
                     if last_ok.map_or(true, |t| t.elapsed().map_or(true, |e| e >= interval)) {
                         match refresh(&handle, &cfg).await {
                             Ok(()) => last_ok = Some(std::time::SystemTime::now()),
-                            Err(e) => eprintln!("refresh failed: {e}"),
+                            Err(e) => applog::log(&format!("refresh failed: {e}")),
                         }
                     }
                     tokio::time::sleep(Duration::from_secs(30 * 60)).await;

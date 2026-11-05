@@ -221,7 +221,7 @@ pub async fn news(c: &reqwest::Client) -> Items {
     for (i, r) in [a, b, d].into_iter().enumerate() {
         match r {
             Ok(v) => all.extend(v.into_iter().map(|e| (FEEDS[i].0, e))),
-            Err(e) => eprintln!("news: {}: {e}", FEEDS[i].0),
+            Err(e) => crate::applog::log(&format!("news: {}: {e}", FEEDS[i].0)),
         }
     }
     all.retain(|(_, e)| !e.title.is_empty() && e.url.starts_with("http") && e.date.is_some());
