@@ -1,0 +1,92 @@
+{
+ "updated": "2026-11-07T13:15:47.285Z",
+ "awwwards": [
+  {
+   "title": "Justin Jefferson",
+   "url": "https://www.awwwards.com/sites/justin-jefferson",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/09/6aad95a1585a1398750089.jpg",
+   "meta": "Site of the Day · Nov 07, 2026"
+  },
+  {
+   "title": "BMW Next Move - F3 RRFI",
+   "url": "https://www.awwwards.com/sites/bmw-next-move-f3-rrfi",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/09/6abd0e725aec4829233280.jpg",
+   "meta": "Honorable Mention · Oct 16, 2026"
+  },
+  {
+   "title": "Think Big Studio",
+   "url": "https://www.awwwards.com/sites/think-big-studio",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/09/6abca8a81e369155081732.jpg",
+   "meta": "Honorable Mention · Oct 15, 2026"
+  }
+ ],
+ "behance": [
+  {
+   "title": "TORTUS STUDIO Copenhagen",
+   "url": "https://www.behance.net/gallery/257992657/TORTUS-STUDIO-Copenhagen",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/5a855d257992657.Y3JvcCwxMTk0LDkzNCwxMDMsMA.jpg",
+   "meta": "Curated"
+  },
+  {
+   "title": "IT WAS ALL A DREAM",
+   "url": "https://www.behance.net/gallery/258046915/IT-WAS-ALL-A-DREAM",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/02f531258046915.Y3JvcCwxMTY5LDkxNCw4OSw2ODM.jpg",
+   "meta": "Curated"
+  },
+  {
+   "title": "Ascent Parfum",
+   "url": "https://www.behance.net/gallery/258042289/Ascent-Parfum",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/e512ed258042289.Y3JvcCwxMDA4LDc4OSwxOTQsMA.jpg",
+   "meta": "Curated"
+  }
+ ],
+ "producthunt": [
+  {
+   "title": "Exa Monitors v2",
+   "text": "Web search on a schedule that calls your agent, $2/1k runs",
+   "url": "https://www.producthunt.com/products/exa-ai",
+   "image": "https://ph-files.imgix.net/37e2c4c1-361d-419e-a2f5-70bf1c6a56c0.jpeg?auto=format",
+   "meta": "▲ 119"
+  },
+  {
+   "title": "ChatGPT Images 2.6",
+   "text": "Create, edit, and animate images with AI",
+   "url": "https://www.producthunt.com/products/openai",
+   "image": "https://ph-files.imgix.net/27c1e3fb-bb68-4623-90e7-a5b8d7c2a4b6.jpeg?auto=format",
+   "meta": "▲ 116"
+  },
+  {
+   "title": "LiveReview",
+   "text": "Free, Risk-Aware Code Review: Auto Approve Low-Risk Changes",
+   "url": "https://www.producthunt.com/products/livereview",
+   "image": "https://ph-files.imgix.net/b2c2dfcc-1984-408d-a268-16b35a67c388.gif?auto=format",
+   "meta": "▲ 104"
+  }
+ ],
+ "news": [
+  {
+   "title": "Agent Harness: Definition",
+   "url": "https://www.nngroup.com/articles/agent-harness/",
+   "text": "An agent harness manages a software loop between an AI model and its tools. Its context, permissions, and limits shape what users can do.",
+   "image": "https://media.nngroup.com/media/articles/opengraph_images/Agent-Harness_socialcard.png",
+   "meta": "NN/g",
+   "date": "2026-11-06T18:00:00.000Z"
+  },
+  {
+   "title": "Usability 101: Introduction to Usability",
+   "url": "https://www.nngroup.com/articles/usability-101-introduction-to-usability/",
+   "text": "Usability refers to how easily people can complete tasks with a design. Improve it by watching representative users do realistic tasks, early and…",
+   "image": "https://media.nngroup.com/media/articles/opengraph_images/Usability_101___.png",
+   "meta": "NN/g",
+   "date": "2026-11-06T18:00:00.000Z"
+  },
+  {
+   "title": "A New Community For In-House UX People",
+   "url": "https://smashingmagazine.com/2026/11/ux-insiders-community-in-house-ux-people/",
+   "text": "We’ve been working on something new! We’ve teamed up for a **new small community** for people doing UX-inside organizations &mdash; with weekly calls…",
+   "image": "http://files.smashing.media/articles/ux-insiders-community-in-house-ux-people/ux-insiders-community-in-house-ux-people.jpg",
+   "meta": "Smashing Magazine",
+   "date": "2026-11-06T08:00:00.000Z"
+  }
+ ]
+}
