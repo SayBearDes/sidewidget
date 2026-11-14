@@ -1,0 +1,92 @@
+{
+ "updated": "2026-11-14T10:38:42.975Z",
+ "awwwards": [
+  {
+   "title": "Preymaker",
+   "url": "https://www.awwwards.com/sites/preymaker",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/09/6ab13a392cc6b094293023.png",
+   "meta": "Site of the Day · Nov 14, 2026"
+  },
+  {
+   "title": "Ingrassia Daniel - Portfolio",
+   "url": "https://www.awwwards.com/sites/ingrassia-daniel-portfolio",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/10/6ac625dd64b10884331997.jpg",
+   "meta": "Honorable Mention · Oct 23, 2026"
+  },
+  {
+   "title": "Idealworks",
+   "url": "https://www.awwwards.com/sites/idealworks",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/10/6ac58a015bcb0731481531.jpg",
+   "meta": "Honorable Mention · Oct 23, 2026"
+  }
+ ],
+ "behance": [
+  {
+   "title": "-Picture books- ?????????? Takara All Alone",
+   "url": "https://www.behance.net/gallery/256715279/-Picture-books-Takara-All-Alone",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/89c875256715279.Y3JvcCwxNjI3LDEyNzMsMTIwLDA.jpg",
+   "meta": "Curated"
+  },
+  {
+   "title": "Bolulu Hasan Usta | Rebranding",
+   "url": "https://www.behance.net/gallery/248940393/Bolulu-Hasan-Usta-Rebranding",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/0e8bf8248940393.Y3JvcCwyOTY2LDIzMjAsNDMzLDYzMQ.png",
+   "meta": "Curated"
+  },
+  {
+   "title": "FACES",
+   "url": "https://www.behance.net/gallery/258372929/FACES",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/54d3c7258372929.Y3JvcCwxNDAwLDEwOTUsMCwzMTU.jpeg",
+   "meta": "Curated"
+  }
+ ],
+ "producthunt": [
+  {
+   "title": "Templify AI",
+   "text": "Powerful content editor for people who aren’t editors",
+   "url": "https://www.producthunt.com/products/templify",
+   "image": "https://ph-files.imgix.net/f7f2b7ba-fb0c-470e-a340-ceb4a7cb593e.png?auto=format",
+   "meta": "▲ 369"
+  },
+  {
+   "title": "Filament by Galaxy",
+   "text": "Move data using your terminal or agent. Fast & open source.",
+   "url": "https://www.producthunt.com/products/galaxy",
+   "image": "https://ph-files.imgix.net/fa064ab0-4f4c-44cf-80c2-ff0612e20dd0.png?auto=format",
+   "meta": "▲ 298"
+  },
+  {
+   "title": "Claude Meetings",
+   "text": "Add Claude to your call and get work started as you talk",
+   "url": "https://www.producthunt.com/products/claude",
+   "image": "https://ph-files.imgix.net/0a72e438-9a48-407c-a3a1-7e74832e7ea4.png?auto=format",
+   "meta": "▲ 277"
+  }
+ ],
+ "news": [
+  {
+   "title": "Research-In-The-Loop: How UXR Adapts to Development at AI Speed",
+   "url": "https://www.nngroup.com/articles/research-in-the-loop/",
+   "text": "As AI speeds up development, it can be a challenge for research to adapt. Research can define what each release must measure and what it can help…",
+   "image": "https://media.nngroup.com/media/articles/opengraph_images/Research-In-The-Loop__How_UXR_Adapts__to_Development_at__AI_Speed.png",
+   "meta": "NN/g",
+   "date": "2026-11-13T18:00:00.000Z"
+  },
+  {
+   "title": "Journey Mapping 101",
+   "url": "https://www.nngroup.com/articles/journey-mapping-101/",
+   "text": "A journey map is a visualization of the process that a person goes through in order to accomplish a goal.",
+   "image": "https://media.nngroup.com/media/articles/opengraph_images/JourneyMapping101_Social-Media-Posts_2021-27.png",
+   "meta": "NN/g",
+   "date": "2026-11-13T18:00:00.000Z"
+  },
+  {
+   "title": "Building interfaces that understand what we want to do",
+   "url": "https://agustinbarrientos.com/writing/senior-eye/interfaces-that-understand-what-we-want",
+   "text": "Chrome is building a Decisions API that runs a decision model on your computer, for free and privately.",
+   "image": "https://agustinbarrientos.com/_astro/cover.dW8fEYz6.webp",
+   "meta": "Sidebar",
+   "date": "2026-11-13T05:05:00.000Z"
+  }
+ ]
+}
