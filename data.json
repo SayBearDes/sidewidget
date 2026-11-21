@@ -1,0 +1,92 @@
+{
+ "updated": "2026-11-21T11:22:57.694Z",
+ "awwwards": [
+  {
+   "title": "Night Drive Racing Game",
+   "url": "https://www.awwwards.com/sites/night-drive-racing-game",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/09/6abbd731284f6515683857.jpg",
+   "meta": "Site of the Day · Nov 21, 2026"
+  },
+  {
+   "title": "Monet 100",
+   "url": "https://www.awwwards.com/sites/monet-100",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/10/6acfa75596d95544901222.jpg",
+   "meta": "Honorable Mention · Oct 30, 2026"
+  },
+  {
+   "title": "Vadim Carazan, Art Director",
+   "url": "https://www.awwwards.com/sites/vadim-carazan-art-director",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/10/6ace265fa1cd1385489317.jpg",
+   "meta": "Honorable Mention · Oct 30, 2026"
+  }
+ ],
+ "behance": [
+  {
+   "title": "Information Day 2026 | HKU Architecture",
+   "url": "https://www.behance.net/gallery/258774867/Information-Day-2026-HKU-Architecture",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/80e83e258774867.Y3JvcCwyNjg0LDIxMDAsNTksMA.jpg",
+   "meta": "Curated"
+  },
+  {
+   "title": "Colors",
+   "url": "https://www.behance.net/gallery/257155015/Colors",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/fc8815257155015.Y3JvcCwxMjAwLDkzOCwwLDA.jpg",
+   "meta": "Curated"
+  },
+  {
+   "title": "Illustration Collection 2026_2",
+   "url": "https://www.behance.net/gallery/258610625/Illustration-Collection-2026_2",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/d23efd258610625.Y3JvcCwxNDY3LDExNDcsNDQzLDMy.png",
+   "meta": "Curated"
+  }
+ ],
+ "producthunt": [
+  {
+   "title": "Saparo",
+   "text": "Muse for shopping with deals stacks",
+   "url": "https://www.producthunt.com/products/saparo",
+   "image": "https://ph-files.imgix.net/f286c44e-6081-4be4-b4c6-2575392cd1b7.png?auto=format",
+   "meta": "▲ 332"
+  },
+  {
+   "title": "Tripmojo",
+   "text": "Agentic travel app that helps plan, book and run your trip",
+   "url": "https://www.producthunt.com/products/tripmojo",
+   "image": "https://ph-files.imgix.net/launch-image-uploads/8a624bfb-f6c8-4b12-8587-8eaff2451e94/63a72628f9a36b034e1430233822a19af6ca8df90e2db500df3effdba2d727cf.png?auto=format",
+   "meta": "▲ 296"
+  },
+  {
+   "title": "Docker",
+   "text": "Built to run on trust, for the agentic era",
+   "url": "https://www.producthunt.com/products/docker",
+   "image": "https://ph-files.imgix.net/6be36375-d756-4f7b-b908-1e76bddc3ebc.png?auto=format",
+   "meta": "▲ 255"
+  }
+ ],
+ "news": [
+  {
+   "title": "Qualitative User-Research Methods: An Overview",
+   "url": "https://www.nngroup.com/articles/qual-research-methods/",
+   "text": "Want to know why users struggle or what they need? Start by choosing the right method. Here are 4 of the most popular qualitative UX-research methods.",
+   "image": "https://media.nngroup.com/media/articles/opengraph_images/Qualitative_User_Research_Card.png",
+   "meta": "NN/g",
+   "date": "2026-11-20T18:00:00.000Z"
+  },
+  {
+   "title": "Can AI Generate Good Designs from Raw User Data?",
+   "url": "https://www.nngroup.com/articles/raw-data-vs-synthesized-data/",
+   "text": "In our study, AI-generated designs were better when the AI received synthesized findings and recommendations instead of raw user comments alone.",
+   "image": "https://media.nngroup.com/media/articles/opengraph_images/Can_AI_Card.png",
+   "meta": "NN/g",
+   "date": "2026-11-20T18:00:00.000Z"
+  },
+  {
+   "title": "Impermanence",
+   "url": "https://tcosta.com/impermanence/",
+   "text": "A little game about craft, impermanence, and what remains human in a world where almost anything can be made.",
+   "image": "https://tcosta.com/meta/impermanence.jpg",
+   "meta": "Sidebar",
+   "date": "2026-11-20T09:19:25.000Z"
+  }
+ ]
+}
