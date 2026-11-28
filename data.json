@@ -1,0 +1,92 @@
+{
+ "updated": "2026-11-28T17:38:27.740Z",
+ "awwwards": [
+  {
+   "title": "Prägen Hätlen",
+   "url": "https://www.awwwards.com/sites/pragen-hatlen",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/10/6ac3b787ab684100820740.jpg",
+   "meta": "Site of the Day · Nov 27, 2026"
+  },
+  {
+   "title": "Ethiack",
+   "url": "https://www.awwwards.com/sites/ethiack",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/10/6ad621912bf6a571443881.jpg",
+   "meta": "Honorable Mention · Nov 05, 2026"
+  },
+  {
+   "title": "Continuance",
+   "url": "https://www.awwwards.com/sites/continuance",
+   "image": "https://assets.awwwards.com/awards/media/cache/thumb_880_660/submissions/2026/10/6ae3676fd84ea033783765.jpg",
+   "meta": "Honorable Mention · Nov 05, 2026"
+  }
+ ],
+ "behance": [
+  {
+   "title": "FLUX",
+   "url": "https://www.behance.net/gallery/95712403/FLUX",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/98335795712403.Y3JvcCwxMTEyLDg3MCwwLDI3NQ.jpg",
+   "meta": "Curated"
+  },
+  {
+   "title": "San Francisco Agency",
+   "url": "https://www.behance.net/gallery/258958845/San-Francisco-Agency",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/f25303258958845.Y3JvcCwxMDIyLDgwMCwxMiww.jpg",
+   "meta": "Curated"
+  },
+  {
+   "title": "Kinopoisk // Alexander Zatsepin's 100",
+   "url": "https://www.behance.net/gallery/258840383/Kinopoisk-Alexander-Zatsepins-100",
+   "image": "https://mir-s3-cdn-cf.behance.net/projects/808/7b4691258840383.Y3JvcCwzNTQzLDI3NzIsMTcsMA.png",
+   "meta": "Curated"
+  }
+ ],
+ "producthunt": [
+  {
+   "title": "overads.io",
+   "text": "Marketing and GTM that run while you sleep",
+   "url": "https://www.producthunt.com/products/overads-io",
+   "image": "https://ph-files.imgix.net/fa4191bb-8aeb-4e17-9d87-8078b35054b0.jpeg?auto=format",
+   "meta": "▲ 218"
+  },
+  {
+   "title": "RetainIQ",
+   "text": "Know which customers need attention, why & what to do next",
+   "url": "https://www.producthunt.com/products/retainiq-2",
+   "image": "https://ph-files.imgix.net/launch-image-uploads/c228a406-cf5f-4835-a1de-195d4c757a93/d28b2a80b94b005de293de433b93fce638b52f2c2cd1e36d2755d25a0c42cfbd.png?auto=format",
+   "meta": "▲ 193"
+  },
+  {
+   "title": "Tano",
+   "text": "Korean vocabulary app that skips the words you know",
+   "url": "https://www.producthunt.com/products/tano",
+   "image": "https://ph-files.imgix.net/launch-image-uploads/a89488b1-d1d2-491c-b376-a29f7f471e18/b933fae3ca30b165f59a6c6435bb6ea46a1668b0e543655f11e14da75be7e7ec.png?auto=format",
+   "meta": "▲ 152"
+  }
+ ],
+ "news": [
+  {
+   "title": "Usability Testing 101",
+   "url": "https://www.nngroup.com/articles/usability-testing-101/",
+   "text": "Usability testing involves watching people use a design to uncover problems and opportunities. Anyone on a product team can learn this.",
+   "image": "https://media.nngroup.com/media/articles/opengraph_images/Usability_Testing_101.png",
+   "meta": "NN/g",
+   "date": "2026-11-27T17:00:00.000Z"
+  },
+  {
+   "title": "The judge used to be the user",
+   "url": "https://uxdesign.cc/the-judge-used-to-be-the-user-0a958f24bb32?sk=e8c664d3852c69ce41f28a0f997a2a71",
+   "text": "AI collapsed the slow middle of building models. The people who once defined correct went with it.",
+   "image": "https://miro.medium.com/v2/resize:fit:1200/1*oRmV3l91vV_cnIpGqcfEIA.png",
+   "meta": "Sidebar",
+   "date": "2026-11-27T06:47:06.000Z"
+  },
+  {
+   "title": "Worn into shape",
+   "url": "https://mouthprint.com/e/worn-into-shape",
+   "text": "A pebble acquires its shape through contact: with water, with grit, with other stones. The objects gathered here bring that same shape.",
+   "image": "https://mouthprint.com/social/e002/2eea0511698e1c1e5572.png",
+   "meta": "Sidebar",
+   "date": "2026-11-27T06:46:30.000Z"
+  }
+ ]
+}
